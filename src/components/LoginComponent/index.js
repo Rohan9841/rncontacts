@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
-import Container from '../../components/Container';
-import Input from '../../components/Common/Input';
-import CustomButton from '../../components/Common/CustomButton';
+import Container from '../Container';
+import Input from '../Common/Input';
+import CustomButton from '../Common/CustomButton';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/core';
 import { REGISTER } from '../../constants/routeNames';

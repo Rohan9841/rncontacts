@@ -1,8 +1,7 @@
-import LoginComponent from '../../components/Login';
+import React from 'react';
+import LoginComponent from '../../components/LoginComponent';
 
 const Login = () => {
-    const [value, setValue] = useState("");
-
     return (
         <LoginComponent />
     )
