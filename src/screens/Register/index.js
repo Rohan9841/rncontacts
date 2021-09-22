@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/core';
+import React, { useEffect, useState } from 'react';
+import { useContext } from 'react/cjs/react.development';
 import RegisterComponent from '../../components/RegisterComponent';
-import envs from '../../config/envs';
+import { LOGIN } from '../../constants/routeNames';
+import register, { clearAuthState } from '../../context/actions/auth/register';
+import { GlobalContext } from '../../context/Provider';
 
 const Register = () => {
     const [form, setForm] = useState({});
     const [errors, setErrors] = useState({})
+    const {
+        authDispatch,
+        authState: { error, loading, data }
+    } = useContext(GlobalContext);
+
+    const { navigate } = useNavigation();
 
     const onChange = ({ name, value }) => {
         setForm({
@@ -66,18 +76,39 @@ const Register = () => {
                 return { ...prev, password: "Please add a password" }
             })
         }
+
+        if (Object.values(form).length === 5 &&
+            Object.values(form).every(item => item.trim().length > 0) &&
+            Object.values(errors).every((item) => !item)) {
+            register(form)(authDispatch);
+        } else console.log("There is error.")
     }
 
     const onSubmit = () => {
         console.log("form >>> ", form);
         validateOnSubmit();
     }
+
+    useEffect(() => {
+        if (data) navigate(LOGIN);
+        return () => {
+            console.log("cleanup in Register/index.js");
+        }
+    }, [data])
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (data || error) clearAuthState()(authDispatch);
+        }, [data])
+    )
     return (
         <RegisterComponent
             onSubmit={onSubmit}
             onChange={onChange}
             form={form}
             errors={errors}
+            error={error}
+            loading={loading}
         />
     )
 }

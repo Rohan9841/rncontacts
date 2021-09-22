@@ -13,6 +13,8 @@ const RegisterComponent = (props) => {
         onSubmit,
         onChange,
         form,
+        loading,
+        error,
         errors
     } = props;
 
@@ -30,6 +32,8 @@ const RegisterComponent = (props) => {
                 <Text style={styles.subtitle}> Create a free acount</Text>
 
                 <View style={styles.form}>
+
+                    {error?.error && <Text>{error.error}</Text>}
                     <Input
                         label="Username"
                         placeholder="Enter username"
@@ -37,7 +41,7 @@ const RegisterComponent = (props) => {
                         onChangeText={(value) => {
                             onChange({ name: "userName", value });
                         }}
-                        error={errors.userName}
+                        error={errors.userName || error?.username?.[0]}
                     />
 
                     <Input
@@ -47,7 +51,7 @@ const RegisterComponent = (props) => {
                         onChangeText={(value) => {
                             onChange({ name: "firstName", value });
                         }}
-                        error={errors.firstName}
+                        error={errors.firstName || error?.first_name?.[0]}
                     />
 
                     <Input
@@ -57,7 +61,7 @@ const RegisterComponent = (props) => {
                         onChangeText={(value) => {
                             onChange({ name: "lastName", value });
                         }}
-                        error={errors.lastName}
+                        error={errors.lastName || error?.last_name?.[0]}
                     />
 
                     <Input
@@ -67,7 +71,7 @@ const RegisterComponent = (props) => {
                         onChangeText={(value) => {
                             onChange({ name: "email", value });
                         }}
-                        error={errors.email}
+                        error={errors.email || error?.email?.[0]}
                     />
 
                     <Input
@@ -79,12 +83,14 @@ const RegisterComponent = (props) => {
                         onChangeText={(value) => {
                             onChange({ name: "password", value })
                         }}
-                        error={errors.password}
+                        error={errors.password || error?.password?.[0]}
                     />
 
                     <CustomButton
                         primary
-                        title="Submit"
+                        loading={loading}
+                        disabled={loading}
+                        title={loading ? "Submitting. Please wait..." : "Submit"}
                         onPress={onSubmit}
                     />
 
