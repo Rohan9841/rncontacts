@@ -98,7 +98,10 @@ const Register = () => {
 
     useFocusEffect(
         React.useCallback(() => {
-            if (data || error) clearAuthState()(authDispatch);
+            return () => {
+                if (data || error) clearAuthState()(authDispatch); // This will execute when you get out of the Register screen
+                console.log("cleanup in Register/index.js after useFocusEffect.")
+            }
         }, [data])
     )
     return (

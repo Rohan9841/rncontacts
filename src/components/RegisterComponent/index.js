@@ -6,6 +6,7 @@ import Container from "../Container";
 import styles from './styles';
 import { LOGIN } from "../../constants/routeNames";
 import { useNavigation } from "@react-navigation/core";
+import MessageComponent from "../Common/MessageComponent";
 
 const RegisterComponent = (props) => {
     const { navigate } = useNavigation();
@@ -33,7 +34,15 @@ const RegisterComponent = (props) => {
 
                 <View style={styles.form}>
 
-                    {error?.error && <Text>{error.error}</Text>}
+                    {error?.error &&
+                        <MessageComponent
+                            danger
+                            message={error?.error}
+                            retry
+                            retryFn={() => {
+                                console.log("Hello World")
+                            }}
+                        />}
                     <Input
                         label="Username"
                         placeholder="Enter username"

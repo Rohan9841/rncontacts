@@ -8,8 +8,14 @@ import { useNavigation } from '@react-navigation/core';
 import { REGISTER } from '../../constants/routeNames';
 import MessageComponent from '../Common/MessageComponent';
 
-const LoginComponent = () => {
+const LoginComponent = (props) => {
     const { navigate } = useNavigation();
+    const {
+        loading,
+        onChange,
+        onSubmit,
+        error
+    } = props;
 
     return (
         <Container>
@@ -24,23 +30,34 @@ const LoginComponent = () => {
                 <Text style={styles.title}> Welcome to RNContacts</Text>
                 <Text style={styles.subtitle}> Please login here</Text>
 
-                <MessageComponent
-                    retry
-                    retryFn={() => {
-                        console.log("Hello World")
-                    }}
-                    primary
-                    message="invalid Credential"
-                    onDismiss={() => {
-                        console.log("onDismiss called");
-                    }}
-                />
                 <View style={styles.form}>
+
+                    {error && !error.error && <MessageComponent //This will show if the error is not local error
+                        danger
+                        message="Invalid Credential"
+                        onDismiss={() => {
+                            console.log("onDismiss called");
+                        }}
+                    />
+                    }
+
+                    {error?.error && //if local error
+                        <MessageComponent
+                            danger
+                            message={error?.error}
+                            retry
+                            retryFn={() => {
+                                console.log("Hello World")
+                            }}
+                        />}
+
                     <Input
                         label="Username"
                         placeholder="Enter Username"
                         iconPosition="right"
-                    // error={"This field is required"}
+                        onChangeText={(value) => {
+                            onChange({ name: "userName", value });
+                        }}
                     />
 
                     <Input
@@ -49,11 +66,17 @@ const LoginComponent = () => {
                         secureTextEntry={true}
                         icon={<Text>Show</Text>}
                         iconPosition="right"
+                        onChangeText={(value) => {
+                            onChange({ name: "password", value })
+                        }}
                     />
 
                     <CustomButton
                         primary
-                        title="Submit"
+                        loading={loading}
+                        disabled={loading}
+                        title={loading ? "Submitting. Please wait..." : "Submit"}
+                        onPress={onSubmit}
                     />
 
                     <View style={styles.createSection}>
