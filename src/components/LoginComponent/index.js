@@ -17,6 +17,8 @@ const LoginComponent = (props) => {
         error
     } = props;
 
+    const [isSecureEntry, setIsSecureEntry] = useState(true);
+
     return (
         <Container>
             <Image
@@ -63,8 +65,14 @@ const LoginComponent = (props) => {
                     <Input
                         label="Password"
                         placeholder="Enter Password"
-                        secureTextEntry={true}
-                        icon={<Text>Show</Text>}
+                        secureTextEntry={isSecureEntry}
+                        icon={
+                            <TouchableOpacity
+                                onPress={() => { setIsSecureEntry((prev) => !prev) }}
+                            >
+                                <Text>{isSecureEntry ? "Show" : "Hide"}</Text>
+                            </TouchableOpacity>
+                        }
                         iconPosition="right"
                         onChangeText={(value) => {
                             onChange({ name: "password", value })

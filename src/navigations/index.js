@@ -5,18 +5,22 @@ import DrawerNavigator from "./DrawerNavigator";
 import { GlobalContext } from "../context/Provider";
 import { useEffect } from "react/cjs/react.development";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import HomeNavigator from "./HomeNavigator";
+import { ActivityIndicator } from "react-native";
 
 const AppNavContainer = () => {
 
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
     const { authState: { isLoggedIn } } = useContext(GlobalContext);
+
+    const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn);
+    const [authLoaded, setAuthLoaded] = useState(false);
 
     const getUser = async () => {
         try {
-            await AsyncStorage.getItem("user");
+            const user = await AsyncStorage.getItem("user");
             if (user) setIsAuthenticated(true);
             else setIsAuthenticated(false);
+            setAuthLoaded(true);
         } catch (error) { }
     }
 
@@ -25,12 +29,20 @@ const AppNavContainer = () => {
         return () => {
             console.log("cleanup in navigations/index.js after getting authenticated user.")
         }
-    }, [])
+    }, [isLoggedIn])
 
     return (
-        <NavigationContainer>
-            {(isLoggedIn || isAuthenticated) ? <DrawerNavigator /> : <AuthNavigator />}
-        </NavigationContainer>
+        <>
+            {authLoaded ?
+                <NavigationContainer>
+                    {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
+                    {/* <DrawerNavigator /> */}
+                    {/* <HomeNavigator /> */}
+                </NavigationContainer>
+                :
+                <ActivityIndicator />
+            }
+        </>
     );
 }
 
