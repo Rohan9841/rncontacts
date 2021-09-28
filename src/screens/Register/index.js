@@ -80,7 +80,9 @@ const Register = () => {
         if (Object.values(form).length === 5 &&
             Object.values(form).every(item => item.trim().length > 0) &&
             Object.values(errors).every((item) => !item)) {
-            register(form)(authDispatch);
+            register(form)(authDispatch)((response) => {
+                navigate(LOGIN, { data: response });
+            });
         } else console.log("There is error.")
     }
 
@@ -89,12 +91,12 @@ const Register = () => {
         validateOnSubmit();
     }
 
-    useEffect(() => {
-        if (data) navigate(LOGIN);
-        return () => {
-            console.log("cleanup in Register/index.js");
-        }
-    }, [data])
+    // useEffect(() => {
+    //     if (data) navigate(LOGIN);
+    //     return () => {
+    //         console.log("cleanup in Register/index.js");
+    //     }
+    // }, [data])
 
     useFocusEffect(
         React.useCallback(() => {

@@ -7,7 +7,7 @@ export const clearAuthState = () => (dispatch) => {
     })
 }
 
-export default (props) => (dispatch) => {
+export default (props) => (dispatch) => (onSuccess) => {
 
     dispatch({
         type: REGISTER_LOADING,
@@ -31,7 +31,8 @@ export default (props) => (dispatch) => {
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
-        })
+        });
+        onSuccess(res.data);
     }).catch((err) => {
         console.log("error: ", err);
         dispatch({

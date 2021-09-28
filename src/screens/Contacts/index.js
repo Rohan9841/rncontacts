@@ -2,6 +2,7 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useEffect } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Container from "../../components/Container";
+import IconComponent from "../../components/Common/Icons";
 
 const Contacts = () => {
 
@@ -15,7 +16,7 @@ const Contacts = () => {
                         toggleDrawer();
                     }}
                 >
-                    <Text style={{ padding: 10 }}>Navig</Text>
+                    <IconComponent type="material" style={{ padding: 10 }} name="menu" size={25} />
                 </TouchableOpacity>
 
             )

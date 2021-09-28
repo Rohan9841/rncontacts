@@ -11,10 +11,12 @@ import MessageComponent from '../Common/MessageComponent';
 const LoginComponent = (props) => {
     const { navigate } = useNavigation();
     const {
+        form,
         loading,
         onChange,
         onSubmit,
-        error
+        error,
+        justSignedUp
     } = props;
 
     const [isSecureEntry, setIsSecureEntry] = useState(true);
@@ -33,6 +35,14 @@ const LoginComponent = (props) => {
                 <Text style={styles.subtitle}> Please login here</Text>
 
                 <View style={styles.form}>
+
+                    {justSignedUp && <MessageComponent //This will show if the error is not local error
+                        success
+                        message="Account created successfully"
+                        onDismiss={() => {
+                            console.log("onDismiss called");
+                        }}
+                    />}
 
                     {error && !error.error && <MessageComponent //This will show if the error is not local error
                         danger
@@ -56,6 +66,7 @@ const LoginComponent = (props) => {
                     <Input
                         label="Username"
                         placeholder="Enter Username"
+                        value={form.userName || null}
                         iconPosition="right"
                         onChangeText={(value) => {
                             onChange({ name: "userName", value });
