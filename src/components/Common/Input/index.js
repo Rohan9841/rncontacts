@@ -3,7 +3,7 @@ import { Text, TextInput, View } from "react-native";
 import colors from '../../../assets/theme/colors';
 import styles from "./styles";
 
-const Input = ({ onChangeText, iconPosition, icon, style, value, label, error, ...props }) => {
+const Input = ({ onChangeText, iconPosition, icon, inputStyle, value, label, error, ...props }) => {
 
     const [focused, setFocused] = useState(false);
 
@@ -30,7 +30,7 @@ const Input = ({ onChangeText, iconPosition, icon, style, value, label, error, .
                 ]}>
                 <View>{icon && icon}</View>
                 <TextInput
-                    style={[styles.textInput, style]}
+                    style={[styles.textInput, inputStyle]}
                     onChangeText={onChangeText}
                     value={value}
                     onFocus={() => { setFocused(true) }}

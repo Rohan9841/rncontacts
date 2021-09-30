@@ -49,6 +49,8 @@ const IconComponent = ({ type, ...props }) => {
                 return SimpleLineIcons;
             case "zocial":
                 return Zocial;
+            default:
+                return Fontisto
         }
     }
 

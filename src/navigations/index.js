@@ -35,6 +35,7 @@ const AppNavContainer = () => {
         <>
             {authLoaded ?
                 <NavigationContainer>
+                    {console.log("isAuthenticated:", isAuthenticated)}
                     {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
                     {/* <DrawerNavigator /> */}
                     {/* <HomeNavigator /> */}

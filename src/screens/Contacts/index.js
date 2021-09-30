@@ -1,14 +1,21 @@
 import { useNavigation } from "@react-navigation/core";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import IconComponent from "../../components/Common/Icons";
 import ContactComponent from "../../components/ContactsComponent";
+import getContacts from "../../context/actions/contacts/getContacts";
+import { GlobalContext } from "../../context/Provider";
 
 const Contacts = () => {
 
     const { setOptions, toggleDrawer } = useNavigation();
 
     const [modalVisible, setModalVisible] = useState(false);
+
+    const {
+        contactsDispatch,
+        contactsState: { getContacts: { data, loading } }
+    } = useContext(GlobalContext);
 
     useEffect(() => {
         setOptions({
@@ -23,6 +30,9 @@ const Contacts = () => {
 
             )
         })
+
+        getContacts()(contactsDispatch);
+
         return () => {
             console.log('cleanup in Contacts/index.js at component load')
         }
@@ -32,6 +42,8 @@ const Contacts = () => {
         <ContactComponent
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
+            data={data}
+            loading={loading}
         />
     )
 }
