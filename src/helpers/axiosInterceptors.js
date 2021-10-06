@@ -7,8 +7,8 @@ let headers = {};
 const axiosInstance = axios.create({
     baseURL: envs.BACKEND_URL,
     headers
-
 });
+// console.log("baseUrl: ", envs);
 
 axiosInstance.interceptors.request.use(
     async (config) => {

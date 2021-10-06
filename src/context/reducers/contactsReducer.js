@@ -28,6 +28,41 @@ const contactsReducer = (state, { type, payload }) => {
                     error: payload
                 }
             };
+        case "CREATE_CONTACT_LOADING":
+            return {
+                ...state,
+                createContact: {
+                    ...state.createContact,
+                    loading: true,
+                    error: null
+                }
+            };
+        case "CREATE_CONTACT_SUCCESS":
+            return {
+                ...state,
+                createContact: {
+                    ...state.createContact,
+                    loading: false,
+                    data: payload,
+                    error: null
+                },
+                getContacts: {
+                    ...state.getContacts,
+                    loading: false,
+                    data: [payload, ...state.getContacts.data],
+                    error: null
+                }
+            };
+        case "CREATE_CONTACT_FAIL":
+            return {
+                ...state,
+                createContact: {
+                    ...state.createContact,
+                    loading: false,
+                    error: payload
+                }
+            };
+
         default:
             return state;
     }
