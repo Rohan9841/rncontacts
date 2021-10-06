@@ -28,6 +28,13 @@ const CreateContact = () => {
         });
     }
 
+    const toggleSwitch = () => {
+        setForm({
+            ...form,
+            isFavorite: !form.isFavorite
+        })
+    }
+
     return (
         <CreateContactComponent
             form={form}
@@ -37,6 +44,7 @@ const CreateContact = () => {
             onPress={onSubmit}
             loading={loading}
             error={error}
+            toggleSwitch={toggleSwitch}
         />
     )
 }

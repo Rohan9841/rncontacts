@@ -15,5 +15,14 @@ export default StyleSheet.create({
     chooseText: {
         color: colors.primary,
         alignSelf: "center"
+    },
+    switchContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingVertical: 10
+    },
+    switchText: {
+        fontSize: 17
     }
 })

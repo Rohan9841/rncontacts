@@ -1,11 +1,13 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Switch } from "react-native";
 import styles from './styles';
 import Container from '../Container';
 import Input from '../Common/Input';
 import CustomButton from '../Common/CustomButton';
 import CountryPicker from 'react-native-country-picker-modal';
 import { DEFAULT_IMAGE_URI } from "../../constants/defaultImage";
+import colors from "../../assets/theme/colors";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const CreateContactComponent = (props) => {
 
@@ -15,7 +17,8 @@ const CreateContactComponent = (props) => {
         onChangeText,
         onSubmit,
         loading,
-        error
+        error,
+        toggleSwitch
     } = props;
 
     console.log("error: ", error)
@@ -73,6 +76,15 @@ const CreateContactComponent = (props) => {
                     error={error?.phone_number?.[0] || error?.country_code?.[0]}
                 />
 
+                <View style={styles.switchContainer}>
+                    <Text style={styles.switchText}>Add to Favorite</Text>
+                    <Switch
+                        trackColor={{ false: colors.grey, true: colors.primary }}
+                        thumbColor={form.isFavorite ? colors.semiWhite : colors.semiWhite}
+                        onValueChange={toggleSwitch}
+                        value={form.isFavorite}
+                    />
+                </View>
                 <CustomButton
                     primary
                     title={loading ? "Submitting, please wait..." : "Submit"}
