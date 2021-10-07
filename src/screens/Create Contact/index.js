@@ -8,6 +8,7 @@ import { CONTACT_LIST } from "../../constants/routeNames";
 const CreateContact = () => {
 
     const [form, setForm] = useState({});
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const {
         contactsDispatch,
@@ -47,6 +48,12 @@ const CreateContact = () => {
             sheetRef.current.open();
         }
     }
+
+    const onFileSelected = (image) => {
+        closeSheet();
+        setSelectedImage(image);
+        console.log("image", image);
+    }
     return (
         <CreateContactComponent
             form={form}
@@ -59,7 +66,8 @@ const CreateContact = () => {
             toggleSwitch={toggleSwitch}
             sheetRef={sheetRef}
             openSheet={openSheet}
-            closeSheet={closeSheet}
+            onFileSelected={onFileSelected}
+            selectedImage={selectedImage}
         />
     )
 }

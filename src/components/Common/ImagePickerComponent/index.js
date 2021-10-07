@@ -1,29 +1,54 @@
 import { forwardRef } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 import IconComponent from "../Icons";
 import React from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import styles from "./styles";
 import colors from "../../../assets/theme/colors";
+import ImagePicker from 'react-native-image-crop-picker';
 
 //We will be passing a ref to the child component. This is called ref forwarding.
 //forwardRef automatically gives us profs and refs that needs to be forwarded.
 
-const ImagePickerComponent = forwardRef(({ }, ref) => {
+const ImagePickerComponent = forwardRef(({ onFileSelected }, ref) => {
 
     const options = [
         {
             name: "Take from camera",
             icon: <IconComponent name="camera" type="fontisto" color={colors.grey} size={21} />,
-            onPress: () => { }
+            onPress: () => {
+                ImagePicker.openCamera({
+                    width: 300,
+                    height: 300,
+                    cropping: true,
+                    freeStyleCropEnabled: true,
+                }).then((image) => {
+                    onFileSelected(image);
+                }).catch((error) => {
+                    console.log("error in image: ", error);
+                })
+                // console.log('hi')
+            }
         },
         {
             name: "Choose from Gallery",
             icon: <IconComponent name="image" type="fontAwesome" color={colors.grey} size={21} />,
-            onPress: () => { }
+            onPress: () => {
+                ImagePicker.openPicker({
+                    width: 300,
+                    height: 300,
+                    cropping: true,
+                    freeStyleCropEnabled: true,
+                }).then((image) => {
+                    onFileSelected(image);
+                }).catch((error) => {
+                    console.log("error in image: ", error);
+                })
+                // console.log('hi')
+            }
         }
     ]
+
     return (
         <RBSheet
             ref={ref}

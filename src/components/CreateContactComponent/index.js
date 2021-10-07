@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image, Switch } from "react-native";
+import { View, Text, Image, Switch, TouchableOpacity } from "react-native";
 import styles from './styles';
 import Container from '../Container';
 import Input from '../Common/Input';
@@ -8,7 +8,6 @@ import CountryPicker from 'react-native-country-picker-modal';
 import { DEFAULT_IMAGE_URI } from "../../constants/defaultImage";
 import colors from "../../assets/theme/colors";
 import ImagePickerComponent from "../Common/ImagePickerComponent";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const CreateContactComponent = (props) => {
 
@@ -22,14 +21,15 @@ const CreateContactComponent = (props) => {
         toggleSwitch,
         sheetRef,
         openSheet,
-        closeSheet
+        onFileSelected,
+        selectedImage
     } = props;
 
     return (
         <View style={styles.container}>
             <Container>
                 <Image
-                    source={{ uri: DEFAULT_IMAGE_URI }}
+                    source={{ uri: selectedImage?.path || DEFAULT_IMAGE_URI }}
                     style={styles.imageView}
                 />
                 <TouchableOpacity onPress={openSheet}>
@@ -101,6 +101,7 @@ const CreateContactComponent = (props) => {
 
             <ImagePickerComponent
                 ref={sheetRef}
+                onFileSelected={onFileSelected}
             />
         </View>
     );
