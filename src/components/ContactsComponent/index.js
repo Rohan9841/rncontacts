@@ -1,5 +1,4 @@
 import { Text, View, FlatList, TouchableOpacity, ActivityIndicator, Image } from "react-native";
-import AppModalComponent from "../Common/AppModal";
 import React from "react";
 import MessageComponent from '../Common/MessageComponent';
 import styles from "./styles";
@@ -8,7 +7,7 @@ import IconComponent from "../Common/Icons";
 import { useNavigation } from "@react-navigation/core";
 import { CREATE_CONTACT } from '../../constants/routeNames';
 
-const ContactComponent = ({ modalVisible, setModalVisible, data, loading }) => {
+const ContactComponent = ({ data, loading, sortBy }) => {
 
     const { navigate } = useNavigation();
 
@@ -68,14 +67,6 @@ const ContactComponent = ({ modalVisible, setModalVisible, data, loading }) => {
     return (
         <>
             <View style={styles.wrapper}>
-                <AppModalComponent
-                    modalVisible={modalVisible}
-                    setModalVisible={setModalVisible}
-                    modalTitle="My Profile"
-                    modalBody={<View><Text>Hello from the Modal!</Text></View>}
-                // modalFooter={<></>}
-                />
-
                 {/* ListEmptyComponent is a component that will shown when the data is empty  */}
                 {loading ?
                     <View style={styles.defaultPadding}>
@@ -85,7 +76,16 @@ const ContactComponent = ({ modalVisible, setModalVisible, data, loading }) => {
                     <View style={styles.flatList}>
                         <FlatList
                             renderItem={renderItem}
-                            data={data}
+                            data={
+                                sortBy ? data.sort((a, b) => {
+                                    if (sortBy === "First Name") {
+                                        if (b.first_name > a.first_name) return -1
+                                        else return 1
+                                    } else {
+                                        if (b.last_name > a.last_name) return -1;
+                                        else return 1
+                                    }
+                                }) : data}
                             keyExtractor={(item) => String(item.id)}
                             ListEmptyComponent={ListEmptyComponent}
                             ListFooterComponent={<View style={{ height: 100 }} />} //This is to add some space at the bottom

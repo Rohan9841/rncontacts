@@ -4,11 +4,13 @@ import CreateContactComponent from "../../components/CreateContactComponent";
 import createContact from "../../context/actions/contacts/createContact";
 import { GlobalContext } from "../../context/Provider";
 import { CONTACT_LIST } from "../../constants/routeNames";
+import uploadImage from "../../helpers/uploadImage";
 
 const CreateContact = () => {
 
     const [form, setForm] = useState({});
     const [selectedImage, setSelectedImage] = useState(null);
+    const [uploading, setUploading] = useState(false);
 
     const {
         contactsDispatch,
@@ -25,6 +27,21 @@ const CreateContact = () => {
     }
 
     const onSubmit = () => {
+        if (selectedImage?.size) {
+            setUploading(true);
+            uploadImage(selectedImage)(
+                (url) => {
+                    setUploading(false);
+                    createContact({ ...form, contactPicture: url })(contactsDispatch)(() => {
+                        navigate(CONTACT_LIST)
+                    });
+                })
+                (
+                    (error) => {
+                        console.log("error:", error);
+                        setUploading(false);
+                    });
+        }
         createContact(form)(contactsDispatch)(() => {
             navigate(CONTACT_LIST)
         });
@@ -61,7 +78,7 @@ const CreateContact = () => {
             onChangeText={onChangeText}
             onSubmit={onSubmit}
             onPress={onSubmit}
-            loading={loading}
+            loading={loading || uploading}
             error={error}
             toggleSwitch={toggleSwitch}
             sheetRef={sheetRef}

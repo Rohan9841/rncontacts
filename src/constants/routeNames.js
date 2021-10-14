@@ -4,4 +4,5 @@ export const CONTACT_DETAIL = "Contact Detail";
 export const CREATE_CONTACT = "Create Contact";
 export const SETTINGS = "Settings";
 export const LOGIN = "Login";
+export const LOGOUT = "Logout";
 export const REGISTER = "Register";

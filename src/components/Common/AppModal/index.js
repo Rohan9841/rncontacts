@@ -3,21 +3,27 @@ import React from 'react';
 import styles from "./styles";
 import { ScrollView } from "react-native-gesture-handler";
 import IconComponent from "../Icons";
+import PropTypes from "prop-types";
 
-const AppModalComponent = ({ modalVisible, setModalVisible, modalTitle, modalBody, modalFooter }) => {
+const AppModalComponent = ({
+    modalVisible,
+    setModalVisible,
+    modalTitle,
+    modalBody,
+    modalFooter,
+}) => {
     return (
         <Modal visible={modalVisible} transparent>
-            <TouchableOpacity
-                style={styles.wrapper}
-                onPress={() => { setModalVisible(false) }}
-            >
+            <View style={styles.wrapper}>
                 <View style={styles.modalView}>
                     <ScrollView>
                         <View style={styles.header}>
-                            <IconComponent
-                                size={27}
-                                type="evil"
-                                name="close" />
+                            <TouchableOpacity onPress={() => { setModalVisible(false) }}>
+                                <IconComponent
+                                    size={27}
+                                    type="evil"
+                                    name="close" />
+                            </TouchableOpacity>
                             <Text style={styles.title}>{modalTitle || "RNContacts"}</Text>
                             {/* This view is a hack for space-between in the styles.header to center the text. */}
                             {/* <View /> */}
@@ -41,10 +47,10 @@ const AppModalComponent = ({ modalVisible, setModalVisible, modalTitle, modalBod
                         }
                     </ScrollView>
                 </View>
-            </TouchableOpacity>
+            </View>
 
         </Modal>
     );
-}
+};
 
 export default AppModalComponent;

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "375517203473",
+    "project_id": "rncontacts-589f3",
+    "storage_bucket": "rncontacts-589f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375517203473:android:2548426461d0701ebef5b0",
+        "android_client_info": {
+          "package_name": "com.rohan.rncontacts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375517203473-gfur3nbb4rmunricil10ujn4jo945ebe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs_KeHmN9jWK7LAtI0sI4HN19vDjU8gXg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375517203473-gfur3nbb4rmunricil10ujn4jo945ebe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

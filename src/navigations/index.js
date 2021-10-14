@@ -5,8 +5,8 @@ import DrawerNavigator from "./DrawerNavigator";
 import { GlobalContext } from "../context/Provider";
 import { useEffect } from "react/cjs/react.development";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import HomeNavigator from "./HomeNavigator";
 import { ActivityIndicator } from "react-native";
+import { navigationRef } from "./SideMenu/RootNavigator";
 
 const AppNavContainer = () => {
 
@@ -34,7 +34,8 @@ const AppNavContainer = () => {
     return (
         <>
             {authLoaded ?
-                <NavigationContainer>
+                //When we pass navigationRef to the navigationContainer, navigationRef will have all the methods that are defined in NavigationContainer.
+                <NavigationContainer ref={navigationRef}>
                     {console.log("isAuthenticated:", isAuthenticated)}
                     {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
                     {/* <DrawerNavigator /> */}
