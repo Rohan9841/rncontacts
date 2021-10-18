@@ -3,7 +3,7 @@ import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import colors from '../../../assets/theme/colors';
 import styles from "./styles";
 
-const CustomButton = ({ title, primary, secondary, danger, loading, disabled, onPress }) => {
+const CustomButton = ({ title, primary, secondary, danger, loading, disabled, onPress, style }) => {
 
     const getBgColor = () => {
         if (disabled) return colors.grey;
@@ -17,6 +17,7 @@ const CustomButton = ({ title, primary, secondary, danger, loading, disabled, on
             disabled={disabled}
             onPress={onPress}
             style={[
+                style,
                 styles.wrapper,
                 { backgroundColor: getBgColor() }
             ]}>
