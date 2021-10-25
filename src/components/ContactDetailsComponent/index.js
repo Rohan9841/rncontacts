@@ -49,7 +49,7 @@ const ContactDetailsComponent = ({ contact }) => {
                 <View style={styles.middleCallOptionsContainer}>
                     <IconComponent name="call-outline" type="ionic" color={colors.primary} size={27} />
                     <View style={styles.phoneMobile}>
-                        <Text>{phone_number}</Text>
+                        <Text>+{country_code} {phone_number}</Text>
                         <Text>Mobile</Text>
                     </View>
                     <View style={styles.middleOptions}>
