@@ -25,11 +25,12 @@ const CreateContactComponent = (props) => {
         selectedImage
     } = props;
 
+    // console.log("form", form);
     return (
         <View style={styles.container}>
             <Container>
                 <Image
-                    source={{ uri: selectedImage?.path || DEFAULT_IMAGE_URI }}
+                    source={{ uri: selectedImage?.path || selectedImage || DEFAULT_IMAGE_URI }}
                     style={styles.imageView}
                 />
                 <TouchableOpacity onPress={openSheet}>
@@ -38,6 +39,7 @@ const CreateContactComponent = (props) => {
                 <Input
                     label="First Name"
                     placeholder="Enter First Name"
+                    value={form.firstName || ""}
                     onChangeText={(value) => {
                         onChangeText({ name: "firstName", value: value })
                     }}
@@ -46,6 +48,7 @@ const CreateContactComponent = (props) => {
                 <Input
                     label="Last Name"
                     placeholder="Enter Last Name"
+                    value={form.lastName || ""}
                     onChangeText={(value) => {
                         onChangeText({ name: "lastName", value: value })
                     }}
@@ -74,6 +77,7 @@ const CreateContactComponent = (props) => {
                     }
                     label="Phone Name"
                     placeholder="Enter Phone Number"
+                    value={form.phoneNumber || ""}
                     inputStyle={{ paddingLeft: 10 }}
                     onChangeText={(value) => {
                         onChangeText({ name: "phoneNumber", value: value })

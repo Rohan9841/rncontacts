@@ -2,7 +2,7 @@ import storage from '@react-native-firebase/storage';
 
 export default (file) => (onSuccess) => (onError) => {
     //This is the path in the firebase that this file will be at.
-    const path = "contact-pictures/user/777/" + file.creationDate || file.path; //we are using creationDate because it'll be unique
+    const path = `contact-pictures/user/777/${file.modificationDate || file.path}}`; //we are using creationDate because it'll be unique
     //to upload a picture, we need a reference to which we upload to
     const ref = storage().ref(path);
 
@@ -13,7 +13,7 @@ export default (file) => (onSuccess) => (onError) => {
     task.then(async () => {
         const url = await ref.getDownloadURL();
         onSuccess(url);
-        console.log("url", ur);
+        console.log("url in uploadImage", url);
     }).catch(error => {
         onError(error);
     })

@@ -1,10 +1,12 @@
-import { useNavigation } from "@react-navigation/core";
-import React, { useContext, useRef, useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/core";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import CreateContactComponent from "../../components/CreateContactComponent";
 import createContact from "../../context/actions/contacts/createContact";
 import { GlobalContext } from "../../context/Provider";
-import { CONTACT_LIST } from "../../constants/routeNames";
+import { CONTACT_DETAIL, CONTACT_LIST } from "../../constants/routeNames";
 import uploadImage from "../../helpers/uploadImage";
+import countryCodes from "../../utils/countryCodes";
+import editContact from "../../context/actions/contacts/editContact";
 
 const CreateContact = () => {
 
@@ -16,8 +18,9 @@ const CreateContact = () => {
         contactsDispatch,
         contactsState: { createContact: { loading, data, error } }
     } = useContext(GlobalContext)
-    const { navigate } = useNavigation();
+    const { navigate, setOptions } = useNavigation();
     const sheetRef = useRef(null);
+    const params = useRoute();
 
     const onChangeText = ({ name, value }) => {
         setForm({
@@ -27,24 +30,49 @@ const CreateContact = () => {
     }
 
     const onSubmit = () => {
-        if (selectedImage?.size) {
-            setUploading(true);
-            uploadImage(selectedImage)(
-                (url) => {
-                    setUploading(false);
-                    createContact({ ...form, contactPicture: url })(contactsDispatch)(() => {
-                        navigate(CONTACT_LIST)
-                    });
-                })
-                (
-                    (error) => {
-                        console.log("error:", error);
+        console.log("selected Image:", selectedImage);
+
+        if (params?.params?.contact) {
+            if (selectedImage?.size) {
+                setUploading(true);
+                uploadImage(selectedImage)(
+                    (url) => {
                         setUploading(false);
-                    });
+                        editContact({ ...form, contactPicture: url }, params.params.contact.id)(contactsDispatch)((item) => {
+                            navigate(CONTACT_DETAIL, { item })
+                        });
+                    })
+                    (
+                        (error) => {
+                            console.log("error:", error);
+                            setUploading(false);
+                        });
+            } else {
+                editContact(form, params.params.contact.id)(contactsDispatch)((item) => {
+                    navigate(CONTACT_DETAIL, { item })
+                });
+            }
+        } else {
+            if (selectedImage?.size) {
+                setUploading(true);
+                uploadImage(selectedImage)(
+                    (url) => {
+                        setUploading(false);
+                        createContact({ ...form, contactPicture: url })(contactsDispatch)(() => {
+                            navigate(CONTACT_LIST)
+                        });
+                    })
+                    (
+                        (error) => {
+                            console.log("error:", error);
+                            setUploading(false);
+                        });
+            } else {
+                createContact(form)(contactsDispatch)(() => {
+                    navigate(CONTACT_LIST)
+                });
+            }
         }
-        createContact(form)(contactsDispatch)(() => {
-            navigate(CONTACT_LIST)
-        });
     }
 
     const toggleSwitch = () => {
@@ -71,6 +99,56 @@ const CreateContact = () => {
         setSelectedImage(image);
         console.log("image", image);
     }
+
+    console.log("params", params?.params?.contact);
+    console.log("selected image", selectedImage);
+    useEffect(() => {
+        if (params?.params?.contact) {
+
+            setOptions({
+                title: "Update Contact"
+            });
+
+            const {
+                first_name: firstName,
+                last_name: lastName,
+                phone_number: phoneNumber,
+                is_favorite: isFavorite,
+                country_code: countryCode
+            } = params.params.contact;
+
+            setForm((prev) => {
+                return {
+                    ...prev,
+                    firstName,
+                    lastName,
+                    phoneNumber,
+                    isFavorite,
+                    phoneCode: countryCode
+                }
+            });
+
+            if (params.params.contact.contact_picture) {
+                setSelectedImage(params.params.contact.contact_picture);
+            }
+
+            const country = countryCodes.find(item => {
+                return item.value.replace("+", "") === countryCode;
+            })
+
+            if (country) {
+                setForm(prev => {
+                    return {
+                        ...prev,
+                        countryCode: country.key.toUpperCase()
+                    }
+                })
+            }
+        }
+        return () => {
+            console.log("cleanup in screens/create contact/index.js after params change.")
+        }
+    }, [params])
     return (
         <CreateContactComponent
             form={form}

@@ -64,5 +64,18 @@ export default StyleSheet.create({
         alignSelf: "flex-end",
         width: 256,
         marginRight: 20
+    },
+    imageView: {
+        width: 150,
+        height: 150,
+        borderRadius: 100,
+        alignSelf: "center"
+    },
+    defaultImageContainer: {
+        alignItems: "center",
+        paddingVertical: 20
+    },
+    addPictureText: {
+        color: colors.primary
     }
 })
