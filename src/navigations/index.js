@@ -7,6 +7,7 @@ import { useEffect } from "react/cjs/react.development";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator } from "react-native";
 import { navigationRef } from "./SideMenu/RootNavigator";
+import SplashScreen from "react-native-splash-screen";
 
 const AppNavContainer = () => {
 
@@ -31,6 +32,14 @@ const AppNavContainer = () => {
         }
     }, [isLoggedIn])
 
+    useEffect(() => {
+        if (authLoaded) {
+            SplashScreen.hide();
+        }
+        return () => {
+            console.log("cleanup in navigations/index.js after authLoaded change.")
+        }
+    }, [authLoaded])
     return (
         <>
             {authLoaded ?
